@@ -16,12 +16,7 @@ EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 app.config['SECRET_KEY'] = 'your_secret_key'
 # Use proper encoding of @ in password -> admin@123 → admin%40123
 
-DB_USER = os.environ.get("DB_USER", "root")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "admin@123")
-DB_HOST = os.environ.get("DB_HOST", "localhost")
-DB_NAME = os.environ.get("DB_NAME", "hr")
-
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin%40123@localhost/hr'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
