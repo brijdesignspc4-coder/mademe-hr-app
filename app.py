@@ -12,6 +12,13 @@ from tkinter import Tk, filedialog
 from collections import OrderedDict
 import mysql.connector
 import sys
+if Tk:
+    root = Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename()
+else:
+    # Fallback: use Flask file upload instead
+    file_path = None
 
 app = Flask(__name__)
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
@@ -20,11 +27,6 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 # Use proper encoding of @ in password -> admin@123 → admin%40123
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin%40123@localhost/hr'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-try:
-    from tkinter import Tk, filedialog
-except ImportError:
-    Tk = None
-    filedialog = None
 
 db.init_app(app)
 
