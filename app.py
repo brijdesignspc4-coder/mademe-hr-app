@@ -1,31 +1,29 @@
-from flask import Flask, render_template, request, redirect, url_for,session,flash
-from datetime import datetime
-from database_hr import db, Applicant, Interview, Employee, Attendance, Task, LeaveRequest,Candidates
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime, date
+from database_hr import db, Applicant, Interview, Employee, Attendance, Task, LeaveRequest, Candidates
 import os
 import re
 from flask import session
 import json
 from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader
 from langchain_ollama import OllamaLLM
-from tkinter import Tk, filedialog
 from collections import OrderedDict
 import mysql.connector
+import 
 import sys
-if Tk:
-    root = Tk()
-    root.withdraw()
-    file_path = filedialog.askopenfilename()
-else:
-    # Fallback: use Flask file upload instead
-    file_path = None
 
 app = Flask(__name__)
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 # ------------------ DATABASE CONFIG ------------------ #
 app.config['SECRET_KEY'] = 'your_secret_key'
 # Use proper encoding of @ in password -> admin@123 → admin%40123
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin%40123@localhost/hr'
+
+DB_USER = os.environ.get("DB_USER", "root")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "admin@123")
+DB_HOST = os.environ.get("DB_HOST", "localhost")
+DB_NAME = os.environ.get("DB_NAME", "hr")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -895,6 +893,8 @@ def admin_logout():
     return redirect(url_for('admin_login'))
 
 # ---------------- RUN ---------------- #
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
   
