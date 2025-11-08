@@ -8,8 +8,8 @@ import mysql.connector
 
 db = SQLAlchemy()
 
+EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 
-EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
 # ------------------ APPLICANT MODEL ------------------ #
 class Applicant(db.Model):
     __tablename__ = 'applicant'
