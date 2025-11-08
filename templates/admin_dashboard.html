@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR Dashboard</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('employees') }}">Main Dashboard</a>
+        <a href="{{ url_applicants_dashboard }}">Applicants Dashboard</a>
+        <a href="{{ url_for('add_employee') }}">Add Employee</a>
+        <a href="{{ url_for('admin_attendance') }}">Attendance Records</a>
+        <a href="{{ url_for('settings') }}">Settings</a>
+    </div>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <i class="fa-solid fa-bars menu-icon"></i>
+            </div>
+            <div class="header-center">
+                <span class="app-name">Brij Design</span>
+            </div>
+            <div class="header-right">
+                <i class="fa-solid fa-bell notification-icon"></i>
+                <i class="fa-solid fa-user-circle profile-icon"></i>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Dashboard Cards -->
+            <div class="card-grid">
+                <div class="card card-employees">
+                    <span class="card-title">Total Employees</span>
+                </div>
+                <div class="card card-present">
+                    <span class="card-title">Present Today</span>
+                </div>
+                <div class="card card-leave">
+                    <span class="card-title">On Leave</span>
+                </div>
+                <div class="card card-pending">
+                    <span class="card-title">Pending Requests</span>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions-section">
+                <h3>Quick Actions</h3>
+                <div class="quick-actions-buttons">
+                    <button class="action-button primary-button">
+                        <i class="fa-solid fa-plus"></i> Add Employee
+                    </button>
+                    <button class="action-button secondary-button">
+                        <i class="fa-regular fa-clock"></i> Mark Attendance
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-activity-section">
+                <h3>Recent Activity</h3>
+                <ul class="activity-list">
+                    <li>
+                        <div class="activity-item">
+                            <i class="fa-solid fa-user-plus icon-add"></i>
+                            <div class="activity-details">
+                                <span class="activity-text">New employee added: <strong> </strong> </span>
+                                <span class="activity-time"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="activity-item">
+                            <i class="fa-solid fa-calendar-check icon-approved"></i>
+                            <div class="activity-details">
+                                <span class="activity-text">Leave request approved for <strong> </strong></span>
+                                <span class="activity-time"></span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="activity-item">
+                            <i class="fa-solid fa-clipboard-user icon-attendance"></i>
+                            <div class="activity-details">
+                                <span class="activity-text"> <strong></strong> </span>
+                                <span class="activity-time"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-table-columns"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-users"></i>
+                <span>Employees</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-calendar-day"></i>
+                <span>Attendance</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-calendar-xmark"></i>
+                <span>Leave</span>
+            </a>
+            <a href="#" class="nav-item active">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+    </div>
+</body>
+</html>

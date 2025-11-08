@@ -1,0 +1,11 @@
+Flask
+Flask-SQLAlchemy
+mysqlclient
+PyMySQL
+langchain
+langchain-community
+langchain-ollama
+unstructured
+tk
+PyPDF2
+gunicorn

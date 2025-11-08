@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Candidates by Placement</title>
+</head>
+<body>
+  <h2>Upload Resume / CV</h2>
+
+  <form action="{{ url_for('upload_resume') }}" method="POST" enctype="multipart/form-data">
+    <label>Select Resume (PDF / Word):</label>
+    <input type="file" name="resume" accept=".pdf,.doc,.docx" required>
+    <button type="submit">Upload</button>
+  </form>
+
+  <hr>
+
+  {% if candidates %}
+    <h3>Uploaded Candidates</h3>
+    <table border="1" cellpadding="5">
+      <tr>
+        <th>Name</th>
+        <th>contact</th>
+        <th>Email</th>
+        <th>Position</th>
+        <th>Language</th>
+        <th>Qualification</th>
+        <th>experience</th>
+        <th>current Company</th>
+        <th>Current Salary</th>
+        <th>Permanent Address</th>
+        <th>Skill</th>
+        <th>Switch Reason</th>
+        <th>File Name</th>
+        <th>Status</th>
+      </tr>
+      {% for c in candidates %}
+        <tr>
+          <td>{{ c.fullname }}</td>
+          <td>{{ c.contact }}</td>
+          <td>{{ c.email }}</td>
+          <td>{{ c.position }}</td>
+          <td>{{ c.language }}</td>
+          <td>{{ c.qualification}}</td>
+          <td>{{ c.experience}}</td>
+          <td>{{ c.current_company}}</td>
+          <td>{{ c.curent_salary}}</td>
+          <td>{{ c.permanent_address}}</td>
+          <td>{{ c.skill}}</td>
+          <td>{{ c.switch_reason}}</td>
+          <td>{{ c.filepath}}</td>
+          <td>{{ c.status }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% else %}
+    <p>No candidates uploaded yet.</p>
+  {% endif %}
+</body>
+</html>

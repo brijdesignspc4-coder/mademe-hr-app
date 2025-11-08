@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to BRIJ DESIGNS - Job Application Form</title>
+  <link rel="icon" type="image/x-icon" href="/static/brijdesignslogo.png" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #c0b5b3, #feb47b);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    /* ===== Form Styles ===== */
+    .form-container {
+      /* default hidden when included into other pages; JS will show it when appropriate
+         but when this template is loaded directly we also ensure it becomes visible */
+      display: none;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      max-width: 800px;
+      width: 90%;
+      margin: 50px auto;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    h2 {
+      text-align: center;
+      color: #4CAF50;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      color: #333;
+      margin-top: 10px;
+      display: block;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="number"],
+    textarea,
+    select,
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 2px solid #4CAF50;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    textarea {
+      height: 100px;
+    }
+    input[type="radio"] {
+      margin-right: 8px;
+    }
+    .radio-group, .checkbox-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .btn-submit {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(to right, #43cea2, #185a9d);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .btn-submit:hover {
+      background: linear-gradient(to right, #185a9d, #43cea2);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    table th, table td {
+      padding: 10px;
+      text-align: center;
+      border: 2px solid #ddd;
+    }
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+    td {
+      background-color: #f2f2f2;
+    }
+    @media (max-width: 768px) {
+      .radio-group {
+        flex-direction: column;
+      }
+      table th, td {
+        font-size: 10px;
+        padding: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Job Application Form -->
+  <div class="form-container" id="applicationForm">
+    <h2>Job Application Form</h2>
+    <form id="jobForm" method="POST" action="/applicants">
+      <label>Are you a Fresher or Experienced? *</label>
+      <div class="radio-group">
+        <label><input type="radio" name="job_type" id="fresher" value="Fresher" checked> Fresher</label>
+        <label><input type="radio" name="job_type" id="experienced" value="Experienced"> Experienced</label>
+      </div>
+
+      <label for="position">What position are you applying for? *</label>
+      <input type="text" id="position" name="position" required>
+
+      <label for="fullname">Full Name *</label>
+      <input type="text" id="fullname" name="fullname" required>
+
+      <label>Gender *</label>
+      <div class="radio-group">
+        <label><input type="radio" name="gender" value="Male" required> Male</label>
+        <label><input type="radio" name="gender" value="Female"> Female</label>
+      </div>
+
+      <label for="contact">Contact Number *</label>
+      <input type="tel" id="contact" name="contact" maxlength="10" required>
+
+      <label for="email">Email ID *</label>
+      <input type="email" id="email" name="email" required>
+
+      <label>Highest Qualification *</label>
+      <div class="radio-group">
+        <label><input type="radio" name="qualification" value="10th" required> 10th</label>
+        <label><input type="radio" name="qualification" value="12th"> 12th</label>
+        <label><input type="radio" name="qualification" value="Graduate"> Graduate</label>
+        <label><input type="radio" name="qualification" value="Post Graduate"> Post Graduate</label>
+      </div>
+
+      <label>Rate Yourself in Computer Skills *</label>
+      <div class="radio-group">
+        <label><input type="radio" name="computer_skills" value="Basic" required> Basic</label>
+        <label><input type="radio" name="computer_skills" value="Average"> Average</label>
+        <label><input type="radio" name="computer_skills" value="Good"> Good</label>
+        <label><input type="radio" name="computer_skills" value="Excellent"> Excellent</label>
+      </div>
+
+      <label>Rate Yourself in ERP Skills *</label>
+      <div class="radio-group">
+        <label><input type="radio" name="erp_skills" value="Doesn't Know" required> Doesn't Know</label>
+        <label><input type="radio" name="erp_skills" value="Basic"> Basic</label>
+        <label><input type="radio" name="erp_skills" value="Average"> Average</label>
+        <label><input type="radio" name="erp_skills" value="Good"> Good</label>
+        <label><input type="radio" name="erp_skills" value="Excellent"> Excellent</label>
+      </div>
+
+      <label>Rate Yourself in English Language Skills *</label>
+      <table>
+        <tr>
+          <th>Skill</th><th>Doesn't Know</th><th>Basic</th><th>Average</th><th>Good</th><th>Excellent</th>
+        </tr>
+        <tr>
+          <td>Written</td>
+          <td><input type="radio" name="written_english" value="Doesn't Know" required></td>
+          <td><input type="radio" name="written_english" value="Basic"></td>
+          <td><input type="radio" name="written_english" value="Average"></td>
+          <td><input type="radio" name="written_english" value="Good"></td>
+          <td><input type="radio" name="written_english" value="Excellent"></td>
+        </tr>
+        <tr>
+          <td>Spoken</td>
+          <td><input type="radio" name="spoken_english" value="Doesn't Know" required></td>
+          <td><input type="radio" name="spoken_english" value="Basic"></td>
+          <td><input type="radio" name="spoken_english" value="Average"></td>
+          <td><input type="radio" name="spoken_english" value="Good"></td>
+          <td><input type="radio" name="spoken_english" value="Excellent"></td>
+        </tr>
+        <tr>
+          <td>Understanding</td>
+          <td><input type="radio" name="understanding_english" value="Doesn't Know" required></td>
+          <td><input type="radio" name="understanding_english" value="Basic"></td>
+          <td><input type="radio" name="understanding_english" value="Average"></td>
+          <td><input type="radio" name="understanding_english" value="Good"></td>
+          <td><input type="radio" name="understanding_english" value="Excellent"></td>
+        </tr>
+      </table>
+
+      <label for="expected_salary">Expected Salary *</label>
+      <input type="text" id="expected_salary" name="expected_salary" required>
+
+      <div id="experienceFields" style="display: none;">
+        <label>Overall Experience *</label>
+        <div class="radio-group">
+          <label><input type="radio" name="experience" value="0-2 Years"> 0-2 Years</label>
+          <label><input type="radio" name="experience" value="2-5 Years"> 2-5 Years</label>
+          <label><input type="radio" name="experience" value="5-10 Years"> 5-10 Years</label>
+          <label><input type="radio" name="experience" value="10+ Years"> 10+ Years</label>
+        </div>
+
+        <label for="last_job">Tell us about your Last Job Profile</label>
+        <textarea id="last_job" name="last_job"></textarea>
+
+        <label for="salary">Last Drawn Salary (per month)</label>
+        <input type="text" id="salary" name="salary">
+
+        <label for="why_switch">Why do you want to switch?</label>
+        <textarea id="why_switch" name="why_switch"></textarea>
+      </div>
+
+      <label for="family_members">Family Members</label>
+      <input type="number" id="family_members" name="family_members">
+
+      <label for="father_details">Father's Name and Occupation</label>
+      <input type="text" id="father_details" name="father_details">
+
+      <label for="permanent_address">Permanent Address *</label>
+      <textarea id="permanent_address" name="permanent_address" required></textarea>
+
+      <label><input type="checkbox" id="same_as_above"> Same as Above</label>
+      <label for="current_address">Current Address *</label>
+      <textarea id="current_address" name="current_address" required></textarea>
+
+      <label>Joining Time *</label>
+      <div class="radio-group">
+        <label><input type="radio" name="joining_time" value="Immediate" required> Immediate</label>
+        <label><input type="radio" name="joining_time" value="Less than 7 Days"> Less than 7 Days</label>
+        <label><input type="radio" name="joining_time" value="7 - 15 Days"> 7 - 15 Days</label>
+        <label><input type="radio" name="joining_time" value="15 - 30 Days"> 15 - 30 Days</label>
+      </div>
+
+      <label for="resume">Upload Resume *</label>
+      <input type="file" id="resume" name="resume" required accept=".pdf,.doc,.docx">
+
+      <button type="submit" class="btn-submit">Submit</button>
+    </form>
+  </div>
+
+  <script>
+    // Defensive: only run page-specific DOM logic if elements exist.
+    (function () {
+      const forApplicantsBtn = document.getElementById('forApplicants');
+      const welcomePage = document.getElementById('welcomePage');
+      const applicationForm = document.getElementById('applicationForm');
+
+      if (forApplicantsBtn && welcomePage && applicationForm) {
+        forApplicantsBtn.addEventListener('click', () => {
+          welcomePage.style.display = 'none';
+          applicationForm.style.display = 'block';
+          window.scrollTo(0, 0);
+        });
+      }
+
+      // If this page is opened directly (no `welcomePage` present), show the form immediately
+      if (applicationForm && !welcomePage) {
+        applicationForm.style.display = 'block';
+        window.scrollTo(0, 0);
+      }
+
+      const permanentAddress = document.getElementById('permanent_address');
+      const currentAddress = document.getElementById('current_address');
+      const sameAsAbove = document.getElementById('same_as_above');
+      const experienceFields = document.getElementById('experienceFields');
+      const fresherRadio = document.getElementById('fresher');
+      const experiencedRadio = document.getElementById('experienced');
+
+      if (sameAsAbove && permanentAddress && currentAddress) {
+        sameAsAbove.addEventListener('change', () => {
+          if (sameAsAbove.checked) {
+            currentAddress.value = permanentAddress.value;
+            currentAddress.readOnly = true;
+          } else {
+            currentAddress.readOnly = false;
+            currentAddress.value = '';
+          }
+        });
+        // keep addresses in sync if user checks after typing permanent address
+        permanentAddress.addEventListener('input', () => {
+          if (sameAsAbove.checked) currentAddress.value = permanentAddress.value;
+        });
+      }
+
+      if (experienceFields && fresherRadio && experiencedRadio) {
+        fresherRadio.addEventListener('change', () => {
+          experienceFields.style.display = 'none';
+        });
+        experiencedRadio.addEventListener('change', () => {
+          experienceFields.style.display = 'block';
+        });
+      }
+
+      // Allow the form to submit to the server. Show a friendly notice but do not prevent submit.
+      const jobForm = document.getElementById('jobForm');
+      if (jobForm) {
+        jobForm.addEventListener('submit', () => {
+          // show a quick message; do NOT call preventDefault so the POST reaches the server
+          try { window.alert('✅ Thank you for applying! Submitting your application...'); } catch (e) {}
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

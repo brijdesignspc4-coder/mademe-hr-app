@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Edit Details</title>
+  <style>body{font-family:Arial;padding:20px} .card{max-width:500px;margin:auto;background:#fff;padding:20px;border-radius:8px;border:1px solid #eee}</style>
+</head>
+<body>
+  <div class="card">
+    <h2>Edit Your Details ({{ emp_id }})</h2>
+    <form method="post">
+      <label>Full name</label>
+      <input name="fullname" value="{{ emp.fullname }}">
+      <label>Contact</label>
+      <input name="contact" value="{{ emp.contact }}">
+      <label>Salary Base</label>
+      <input name="salary_base" value="{{ emp.salary_base }}">
+      <button type="submit">Save</button>
+    </form>
+    <p><a href="/employee/dashboard/{{ emp_id }}">← Back to Dashboard</a></p>
+  </div>
+</body>
+</html>

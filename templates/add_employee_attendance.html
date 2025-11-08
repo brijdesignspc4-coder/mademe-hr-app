@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Employee Attendance</title>
+</head>
+<body>
+    <h1>Add Employee Attendance</h1>
+
+    <form action="{{ url_for('add_employee_attendance') }}" method="POST">
+        <label for="employee_id">Employee:</label>
+        <select id="employee_id" name="employee_id" required>
+            {% for emp in employees %}
+                <option value="{{ emp.id }}">{{ emp.name }} - {{ emp.position }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+        <br><br>
+
+        <label for="status">Status:</label>
+        <select id="status" name="status" required>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="On Leave">On Leave</option>
+        </select>
+        <br><br>
+
+        <button type="submit">Add Attendance</button>
+    </form>
+</body>
+</html>

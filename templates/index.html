@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>welcome to BRIJ DESIGNS @ LLP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="static/favicon.ico">
+    <style>
+        * {
+         box-sizing: border-box;
+        }
+        body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #c0b5b3, #feb47b);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        }  
+        /* ===== Welcome Page ===== */
+        .welcome-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        text-align: center;
+        }
+        .welcome-header h1 {
+        color: #2c3e50;
+        font-size: 40px;
+        margin-bottom: 10px;
+        }
+        .welcome-buttons a {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        margin: 10px;
+        text-decoration: none;
+        font-weight: bold;
+        }
+        .welcome-buttons a:hover {
+        background-color: #388E3C;
+        }
+        .welcome-footer {
+        margin-top: 30px;
+        font-size: 14px;
+        color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- Welcome Page -->
+  <div class="welcome-container" id="welcomePage">
+    <header class="welcome-header">
+      <h1>Welcome to Brij Designs @ LLP</h1>
+      <p>Explore our services and get in touch!</p>
+    </header>
+    <div class="welcome-buttons">
+      <a id="forApplicants" href="#">For Applicants</a>
+      <a href="/employees">For Employees</a>
+      <a href="/admin">For Admin</a>
+    </div>
+
+    <!-- Applicants Modal/Card -->
+    <div id="applicantsCard" style="display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); background:#fff; padding:20px; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,0.2); z-index:1000; max-width:420px; width:90%;">
+      <h3 style="margin-top:0;">Applicants - Quick Links</h3>
+      <p style="font-size:14px; color:#333;">Open the form or enter your email to view status, interview schedule or dashboard.</p>
+
+      <div style="margin:12px 0;">
+        <a href="/applicants" style="display:inline-block; background:#4CAF50; color:#fff; padding:10px 14px; border-radius:8px; text-decoration:none; margin-bottom:8px;">Job Application Form</a>
+      </div>
+
+      <label for="applicantEmail">Your Email (for status/interview/dashboard):</label>
+      <input id="applicantEmail" type="email" placeholder="name@example.com" style="width:100%; padding:8px; margin:8px 0; border-radius:6px; border:1px solid #ccc;" />
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+        <button id="openStatus" style="flex:1; background:#2196F3; color:#fff; padding:10px; border-radius:6px; border:none; cursor:pointer;">Status Tracker</button>
+        <button id="openInterview" style="flex:1; background:#FF9800; color:#fff; padding:10px; border-radius:6px; border:none; cursor:pointer;">Interview Schedule</button>
+        <button id="openDashboard" style="flex:1; background:#9C27B0; color:#fff; padding:10px; border-radius:6px; border:none; cursor:pointer;">Applicant Dashboard</button>
+      </div>
+
+      <div style="text-align:right; margin-top:10px;">
+        <button id="closeApplicantsCard" style="background:transparent; border:none; color:#555; cursor:pointer;">Close</button>
+      </div>
+    </div>
+
+    <!-- modal backdrop -->
+    <div id="applicantsBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:900;"></div>
+    
+    <script>
+      // Applicants modal behavior: open, close, basic email validation and navigation
+      (function () {
+        const openBtn = document.getElementById('forApplicants');
+        const card = document.getElementById('applicantsCard');
+        const backdrop = document.getElementById('applicantsBackdrop');
+        const closeBtn = document.getElementById('closeApplicantsCard');
+        const emailInput = document.getElementById('applicantEmail');
+        const openStatus = document.getElementById('openStatus');
+        const openInterview = document.getElementById('openInterview');
+        const openDashboard = document.getElementById('openDashboard');
+
+        function show() {
+          card.style.display = 'block';
+          backdrop.style.display = 'block';
+        }
+        function hide() {
+          card.style.display = 'none';
+          backdrop.style.display = 'none';
+        }
+
+        if (openBtn) openBtn.addEventListener('click', (e) => { e.preventDefault(); show(); });
+        if (closeBtn) closeBtn.addEventListener('click', hide);
+        if (backdrop) backdrop.addEventListener('click', hide);
+
+        // Basic email validation
+        function getEmail() {
+          const v = (emailInput && emailInput.value || '').trim();
+          if (!v) return null;
+          // rudimentary email check
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) return null;
+          return encodeURIComponent(v);
+        }
+
+        if (openStatus) openStatus.addEventListener('click', () => {
+          const e = getEmail();
+          if (!e) { alert('Please enter a valid email to view status.'); return; }
+          window.location.href = '/applicants/status/' + e;
+        });
+
+        if (openInterview) openInterview.addEventListener('click', () => {
+          const e = getEmail();
+          if (!e) { alert('Please enter a valid email to view interview schedule.'); return; }
+          window.location.href = '/applicants/interview/' + e;
+        });
+
+        if (openDashboard) openDashboard.addEventListener('click', () => {
+          const e = getEmail();
+          if (!e) { alert('Please enter a valid email to view dashboard.'); return; }
+          window.location.href = '/applicants/dashboard/' + e;
+        });
+
+        // keyboard escape to close
+        document.addEventListener('keydown', (ev) => { if (ev.key === 'Escape') hide(); });
+      })();
+    </script>
+    <footer class="welcome-footer">
+      <p>&copy; 2026 Brij Designs</p>
+      <p>Udyog Vihar Phase 5, Plot No. 759, Gurgaon, Haryana - 122018</p>
+      <p>Brijdesigns@gmail.com | +91 9876543210</p>
+    </footer>
+  </div>
+
+    </div>
+</body>
+</html>

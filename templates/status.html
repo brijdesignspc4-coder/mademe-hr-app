@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Status Tracker</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .status-box {
+      text-align: center;
+      padding: 20px;
+      border: 2px solid #4CAF50;
+      border-radius: 10px;
+      width: 300px;
+      margin: 100px auto;
+      background: #f9fff9;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="status-box">
+    <p><strong>Your current status:</strong></p>
+    <h2>{{ status }}</h2>
+    <a href="{{ url_for('applicants_dashboard', email=email) }}">← Back to Dashboard</a>
+  </div>
+</body>
+</html>

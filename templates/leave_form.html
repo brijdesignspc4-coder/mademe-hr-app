@@ -1,0 +1,55 @@
+<!-- Leave Request Card -->
+<div class="card" style="max-width:600px; margin:auto; border:1px solid #ddd; padding:20px; border-radius:8px; margin-top:20px;">
+  <h3> Leave Request Form</h3>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+  <form method="POST" action="/leave/request">
+    <!-- Hidden employee info -->
+    <input type="hidden" name="emp_id" value="{{ emp.id }}">
+    <input type="hidden" name="fullname" value="{{ emp.name }}">
+
+    <label>Leave Type</label>
+    <select name="leave_type" required>
+      <option value="">Select Leave Type</option>
+      <option value="Short">Short Leave</option>
+      <option value="Half Day">Half Day Leave</option>
+      <option value="Full Day">Full Day Leave</option>
+    </select>
+
+    <label>Start Date</label>
+    <input type="date" name="date_from" required>
+
+    <label>End Date</label>
+    <input type="date" name="date_to" required>
+
+    <label>Reason</label>
+    <textarea name="reason" rows="3" placeholder="Enter reason for leave" required></textarea>
+
+    <button type="submit" style="margin-top:10px;">Submit Leave Request</button>
+  </form>
+</div>
+<style>
+  .card label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  .card input, .card select, .card textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .card button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .card button:hover {
+    background-color: #45a049;
+  }

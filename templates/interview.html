@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interview Schedule</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+<body>
+  <h2>Interview Schedule</h2>
+  {% if interview %}
+    <p><strong>Date:</strong> {{ interview.date }}</p>
+    <p><strong>Time:</strong> {{ interview.time }}</p>
+    <p><strong>Mode:</strong> {{ interview.mode }}</p>
+  {% else %}
+    <p>No interview scheduled yet.</p>
+  {% endif %}
+  <a href="{{ url_for('applicants_dashboard', email=email) }}">← Back to Dashboard</a>
+</body>
+</html>

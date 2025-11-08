@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Edit Attendance</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .card {
+      background: white;
+      width: 450px;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: left;
+    }
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    td {
+      padding: 10px;
+      vertical-align: middle;
+    }
+    td:first-child {
+      font-weight: bold;
+      color: #333;
+      width: 40%;
+    }
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    button {
+      background: #1abc9c;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background: #16a085;
+    }
+    .info {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #555;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Edit Attendance</h2>
+    <p class="info">
+      <b>{{ attendance.fullname }}</b> — {{ attendance.date.strftime('%d %B %Y') }}
+    </p>
+
+    <form method="post">
+      <table>
+        <tr>
+          <td>Status:</td>
+          <td>
+            <select name="status" required>
+              <option value="Present" {% if attendance.status=='Present' %}selected{% endif %}>Present</option>
+              <option value="Late" {% if attendance.status=='Late' %}selected{% endif %}>Late</option>
+              <option value="On Leave" {% if attendance.status=='On Leave' %}selected{% endif %}>On Leave</option>
+              <option value="Half Day" {% if attendance.status=='Half Day' %}selected{% endif %}>Half Day</option>
+              <option value="Absent" {% if attendance.status=='Absent' %}selected{% endif %}>Absent</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <button type="submit"> Save Changes</button>
+    </form>
+  </div>
+</body>
+</html>

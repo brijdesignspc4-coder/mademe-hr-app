@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mark Attendance</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f6f8;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background: #2c3e50;
+      color: white;
+    }
+    select {
+      padding: 5px;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #1abc9c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #16a085;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mark Attendance - {{ today.strftime('%d %B %Y') }}</h2>
+
+  <form method="post">
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Position</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+      {% for emp in employees %}
+      <tr>
+        <td>{{ emp.id }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.position }}</td>
+        <td>{{ today.strftime('%d %B %Y') }}</td>
+        <td>
+          <select name="status_{{ emp.id }}">
+            <option value="">Select</option>
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+            <option value="On Leave">On Leave</option>
+            <option value="Late">Late</option>
+            <option value="Half Day">Half Day</option>
+          </select>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    <button type="submit">Submit Attendance</button>
+    <a href="{{ url_for('employees') }}">Back to Employees</a>
+  </form>
+</body>
+</html>

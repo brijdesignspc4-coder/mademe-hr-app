@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Applicant Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f7f7f7; }
+    .container { background: white; padding: 20px; border-radius: 10px; max-width: 800px; margin: auto; }
+    h2 { color: #2c3e50; }
+    .nav-links a { margin-right: 20px; color: #4CAF50; text-decoration: none; font-weight: bold; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th, td { padding:8px; border:1px solid #ddd; }
+    th { background:#f2f2f2; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Applicant Dashboard</h2>
+
+    {% if user %}
+      <h3>{{ user.fullname or "Unknown Name" }}</h3>
+      <p><strong>Email:</strong> {{ user.email or "N/A" }}</p>
+      <p><strong>Contact:</strong> {{ user.contact or "N/A" }}</p>
+
+      <div class="nav-links">
+        <a href="{{ url_for('applicant_interview', email=user.email) }}">Interview Schedule</a>
+        <a href="{{ url_for('applicant_status', email=user.email) }}">Status Tracker</a>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          {% for key, val in user.items() %}
+            <tr>
+              <td>{{ key }}</td>
+              <td>{{ val }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p style="color:red;">No applicant data found. Please check the email or apply again.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

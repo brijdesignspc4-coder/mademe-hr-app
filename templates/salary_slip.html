@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Salary Slip</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; }
+    .card { max-width:600px; margin:auto; border:1px solid #ddd; padding:20px; border-radius:8px; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { padding:8px; border:1px solid #eee; text-align:left; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Salary Slip — {{ slip.name }} ({{ slip.emp_id }})</h2>
+    <table>
+      <tr><th>Base Salary</th><td>{{ slip.salary_base }}</td></tr>
+      <tr><th>Late Count</th><td>{{ slip.late_count }}</td></tr>
+      <tr><th>Half-day Count</th><td>{{ slip.half_count }}</td></tr>
+      <tr><th>Full absent Count</th><td>{{ slip.full_absent_count }}</td></tr>
+      <tr><th>Approved Full Leaves</th><td>{{ slip.approved_full }}</td></tr>
+      <tr><th>Approved Half Leaves</th><td>{{ slip.approved_half }}</td></tr>
+      <tr><th>Deducted Days</th><td>{{ slip.deducted_days }}</td></tr>
+      <tr><th>Deduction Amount</th><td>{{ slip.deduction_amount }}</td></tr>
+      <tr><th>Net Salary</th><td><strong>{{ slip.net_salary }}</strong></td></tr>
+    </table>
+    <p style="margin-top:12px; font-size:13px; color:#666;">Note: Calculation uses configured allowances (3 late, 1 full, 1 half and 4 sundays) and assumes 30 working days .</p>
+    <p><a href="/admin">← Back to Admin</a></p>
+  </div>
+</body>
+</html>
