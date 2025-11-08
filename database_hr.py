@@ -2,10 +2,13 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 import json
+# from tkinter import Tk, filedialog   # ❌ REMOVE THIS
 from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader
 from langchain_ollama import OllamaLLM
 import mysql.connector
+
 db = SQLAlchemy()
+
 
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
 # ------------------ APPLICANT MODEL ------------------ #
