@@ -20,6 +20,11 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 # Use proper encoding of @ in password -> admin@123 → admin%40123
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin%40123@localhost/hr'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+try:
+    from tkinter import Tk, filedialog
+except ImportError:
+    Tk = None
+    filedialog = None
 
 db.init_app(app)
 
