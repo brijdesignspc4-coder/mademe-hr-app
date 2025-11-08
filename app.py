@@ -3,13 +3,11 @@ from datetime import datetime, date
 from database_hr import db, Applicant, Interview, Employee, Attendance, Task, LeaveRequest, Candidates
 import os
 import re
-from flask import session
 import json
 from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader
 from langchain_ollama import OllamaLLM
 from collections import OrderedDict
 import mysql.connector
-import 
 import sys
 
 app = Flask(__name__)
