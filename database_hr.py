@@ -2,7 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
 import json
-# from tkinter import Tk, filedialog   # ❌ REMOVE THIS
+from tkinter import Tk, filedialog 
 from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader
 from langchain_ollama import OllamaLLM
 import mysql.connector
