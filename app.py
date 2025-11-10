@@ -14,10 +14,13 @@ app = Flask(__name__)
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
 # ------------------ DATABASE CONFIG ------------------ #
 app.config['SECRET_KEY'] = 'your_secret_key'
-# Use proper encoding of @ in password -> admin@123 → admin%40123
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin%40123@localhost/hr'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Use Render's DATABASE_URL if available, otherwise local MySQL
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 
+    'mysql+pymysql://root:admin%40123@localhost/hr'
+)
 
 db.init_app(app)
 
