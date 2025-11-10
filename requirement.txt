@@ -10,3 +10,4 @@ lxml
 cryptography
 psutil
 gunicorn
+langchain-ollama
