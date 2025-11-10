@@ -8,8 +8,7 @@ import re
 from collections import OrderedDict
 from app import flatten_for_db
 
-EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
-
+EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
 FIELDS = [
     "name", "contact", "email", "position", "languages", "qualification", "experience",
     "current_company", "current_salary", "expected_salary", "in_hand_salary",
