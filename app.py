@@ -20,14 +20,18 @@ EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 load_dotenv()
 
 app = Flask(__name__)
-DB_USER = os.environ['DB_USER']
-DB_PASSWORD = os.environ['DB_PASSWORD']
-DB_HOST = os.environ['DB_HOST']
-DB_PORT = os.environ.get('DB_PORT', 3306)
-DB_NAME = os.environ['DB_NAME']
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-app.secret_key = os.environ.get('SECRET_KEY', 'supersecret')
+# Secret key for session management
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "default_secret_key")
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+
+# SQLAlchemy database URI from env variables
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"mysql+pymysql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}"
+    f"@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
+)
+
+db = SQLAlchemy(app)
 db.init_app(app)
 try:
     with app.app_context():
