@@ -11,7 +11,7 @@ import mysql.connector
 import sys
 
 app = Flask(__name__)
-EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
+EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
 # ------------------ DATABASE CONFIG ------------------ #
 app.config['SECRET_KEY'] = 'your_secret_key'
 # Use proper encoding of @ in password -> admin@123 → admin%40123
