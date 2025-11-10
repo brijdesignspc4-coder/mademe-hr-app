@@ -8,6 +8,12 @@ import mysql.connector
 
 db = SQLAlchemy()
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
+# Use Render's DATABASE_URL if available, otherwise local MySQL
+DB_HOST='localhost'
+DB_PORT=3306
+DB_USER='root'
+DB_PASSWORD='admin@123'
+DB_NAME='hr'
 
 # ------------------ APPLICANT MODEL ------------------ #
 class Applicant(db.Model):
