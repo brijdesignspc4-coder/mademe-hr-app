@@ -4,17 +4,8 @@ import os
 import json
 from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader
 from langchain_ollama import OllamaLLM
-import pymysql
 db = SQLAlchemy()
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
-
-
-conn = pymysql.connect(
-    host="localhost",
-    user="root",
-    password="admin@123",
-    database="hr"
-)
 
 
 # ------------------ APPLICANT MODEL ------------------ #
