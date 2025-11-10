@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from datetime import datetime, date
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+import bcrypt
 from database_hr import db, Applicant, Interview, Employee, Attendance, Task, LeaveRequest, Candidates
 import os
 import re
@@ -11,41 +14,27 @@ import mysql.connector
 import sys
 from waitress import serve
 
-app = Flask(__name__)
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
+
 # ------------------ DATABASE CONFIG ------------------ #
-app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+load_dotenv()
 
-# Use Render's DATABASE_URL if available, otherwise local MySQL
-DB_HOST='localhost'
-DB_PORT=3306
-DB_USER='root'
-DB_PASSWORD='admin@123'
-DB_NAME='hr'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
-
-
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 
+    'mysql+pymysql://root:admin%40123@localhost/hr'
+)
 db.init_app(app)
+try:
+    with app.app_context():
+        db.create_all()
+    print("Database connected and tables created!")
+except Exception as e:
+    print("Database connection failed:", e)
 
-
-with app.app_context():
-    db.create_all()
-# Temporary storage (replace with DB later)
+   
 applications = {}
-interviews = {}
 statuses = {}
-# Employees storage: keyed by employee id
-employee = {}
-# Simple counters for IDs
-_interview_counter = 1
-_employee_counter = 1
-# Leave requests storage
-leave_requests = {}
-# Tasks storage
-tasks = {}
-_leave_request_counter = 1
 
 def flatten_for_db(value):
     if isinstance(value, list):
@@ -514,22 +503,41 @@ def admin_hire():
     return redirect(url_for('admin'))
 
 # ---------------- EMPLOYEE SECTION ---------------- #
+import bcrypt
+
+def hash_password(plain_password: str) -> str:
+    """Hash a plain text password."""
+    if not plain_password:
+        plain_password = ""  # fallback
+    hashed = bcrypt.hashpw(plain_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed.decode('utf-8')
+
+def check_password(emp, plain_password: str) -> bool:
+    """Check if the provided password matches the stored hash."""
+    if not plain_password:
+        plain_password = ""
+    if not hasattr(emp, 'password') or not emp.password:
+        return False
+    return bcrypt.checkpw(plain_password.encode('utf-8'), emp.password.encode('utf-8'))
+
 @app.route('/employee/login', methods=['GET', 'POST'])
 def employee_login():
     if request.method == 'POST':
-        name = request.form.get('name')
-        contact = request.form.get('contact')  # contact input, matches contact in DB
+        email = request.form.get('email') or ""
+        password = request.form.get('password') or ""
 
-        # Corrected: use contact instead of phone
-        emp = Employee.query.filter_by(name=name, contact=contact).first()
-        if emp:
+        emp = Employee.query.filter_by(email=email).first()
+
+        if emp and check_password(emp, password):
             session['emp_id'] = emp.id
-            flash(f"Welcome {emp.name}!", "success")
+            flash(f"Welcome, {emp.name}!", "success")
             return redirect(url_for('employee_dashboard', emp_id=emp.id))
         else:
-            flash("Invalid name or contact number.", "error")
+            flash("Invalid credentials", "error")
+            return redirect(url_for('employee_login'))
 
-    return render_template('employee_dashboard.html')
+    return render_template('employee_login.html')
+
 
 # ---------------- MARK ATTENDANCE ---------------- #
 @app.route('/attendance/mark', methods=['GET', 'POST'])
@@ -641,17 +649,17 @@ def employees():
 @app.route('/employee/add', methods=['GET', 'POST'])
 def add_employee():
     if request.method == 'POST':
-        name = request.form.get('fullname')
-        contact = request.form.get('contact')
-        position = request.form.get('position')
-        email = request.form.get('email')
-        salary = request.form.get('salary')
-        joining_date = request.form.get('joining_date')
+        name = request.form.get('fullname') or ""
+        contact = request.form.get('contact') or ""
+        position = request.form.get('position') or ""
+        email = request.form.get('email') or ""
+        salary = request.form.get('salary') or "0"
+        joining_date = request.form.get('joining_date') or ""
+        password_raw = request.form.get('password') or ""  # default safe string
 
         try:
-            # Safely parse salary and joining date
-            salary_float = float(salary) if salary else 0.0
-            joining_dt = datetime.strptime(joining_date, "%Y-%m-%d") if joining_date else None
+            salary_float = float(salary)
+            joining_dt = datetime.strptime(joining_date, "%Y-%m-%d") if joining_date else datetime.today()
 
             new_emp = Employee(
                 name=name,
@@ -659,18 +667,22 @@ def add_employee():
                 position=position,
                 email=email,
                 salary=salary_float,
-                joining_date=joining_dt
+                joining_date=joining_dt,
+                password=hash_password(password_raw)
             )
 
             db.session.add(new_emp)
             db.session.commit()
+            flash(f"Employee '{name}' added successfully!", "success")
             return redirect(url_for('employees'))
 
         except Exception as e:
             db.session.rollback()
-            return f"Error adding employee: {e}", 500
+            flash(f"Error adding employee: {e}", "error")
+            return redirect(url_for('add_employee'))
 
     return render_template('add_employee.html')
+
 
 
 @app.route('/employee/dashboard/<int:emp_id>')
@@ -896,8 +908,9 @@ def admin_logout():
 
 # ---------------- RUN ---------------- #
 if __name__ == "__main__":
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
+    print("Starting server on http://localhost:8080 ...")
+    serve(app, host='0.0.0.0', port=8080)
+
 
 
   
