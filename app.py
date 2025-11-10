@@ -20,10 +20,14 @@ EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 
-    'mysql+pymysql://root:admin%40123@localhost/hr'
-)
+DB_USER = 'root'
+DB_PASSWORD = 'admin@123'
+DB_HOST = 'localhost'
+DB_PORT =  '3306'
+DB_NAME =  'hr'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 try:
     with app.app_context():
