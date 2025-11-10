@@ -13,6 +13,9 @@ from collections import OrderedDict
 import mysql.connector
 import sys
 from waitress import serve
+from urllib.parse import quote_plus
+import os
+
 
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 
@@ -21,25 +24,30 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Secret key for session management
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "default_secret_key")
+# Get database environment variables
+db_user = os.environ.get("DB_USER", "root")
+db_password = quote_plus(os.environ.get("DB_PASSWORD", ""))
+db_host = os.environ.get("DB_HOST", "localhost")
+db_port = os.environ.get("DB_PORT", "3306")
+db_name = os.environ.get("DB_NAME", "hr")
 
-# SQLAlchemy database URI from env variables
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f"mysql+pymysql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}"
-    f"@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
-)
+# Build the SQLAlchemy URI
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
 
+# Optional: silence the warning
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize SQLAlchemy
 db = SQLAlchemy(app)
-db.init_app(app)
+
+# Test
 try:
     with app.app_context():
-        db.create_all()
-    print("Database connected and tables created!")
+        db.engine.connect()
+        print("Database connected successfully!")
 except Exception as e:
     print("Database connection failed:", e)
-
-   
+    
 applications = {}
 statuses = {}
 
