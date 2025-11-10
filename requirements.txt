@@ -1,7 +1,7 @@
 Flask
+Flask-SQLAlchemy
 SQLAlchemy
 pymysql
-Flask-SQLAlchemy
 mysql-connector-python
 langchain
 langchain_community
@@ -10,4 +10,5 @@ lxml
 cryptography
 psutil
 gunicorn
+
 
