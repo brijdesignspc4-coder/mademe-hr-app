@@ -1,6 +1,6 @@
 Flask
-SQLAlchemy
 Flask-SQLAlchemy
+SQLAlchemy
 pymysql
 mysql-connector-python
 langchain
