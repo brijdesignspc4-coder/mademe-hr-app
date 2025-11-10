@@ -1,11 +1,12 @@
 Flask==2.3.3
 SQLAlchemy==2.0.21
 pymysql==1.1.1
-mysql-connector-python==8.1.1
+mysql-connector-python==9.0.0
 langchain==0.1.198
 langchain_community==0.0.12
 python-docx==0.8.12
 lxml==4.9.3
 cryptography==41.0.3
 psutil==5.9.5
+
 
