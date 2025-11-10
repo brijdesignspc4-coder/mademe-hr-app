@@ -4,16 +4,9 @@ import os
 import json
 from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader
 from langchain_ollama import OllamaLLM
-import mysql.connector
-
 db = SQLAlchemy()
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
-# Use Render's DATABASE_URL if available, otherwise local MySQL
-DB_HOST='localhost'
-DB_PORT=3306
-DB_USER='root'
-DB_PASSWORD='admin@123'
-DB_NAME='hr'
+
 
 # ------------------ APPLICANT MODEL ------------------ #
 class Applicant(db.Model):
@@ -47,41 +40,8 @@ class Applicant(db.Model):
     
     interview = db.relationship('Interview', backref='applicant', lazy=True)
 
-
-    def __init__(
-        self,
-        job_type=None, position=None, fullname=None, gender=None, contact=None,
-        email=None, qualification=None, computer_skills=None, erp_skills=None,
-        written_english=None, spoken_english=None, understanding_english=None,
-        expected_salary=None, experience=None, last_job=None, salary=None,
-        why_switch=None, family_members=None, father_details=None,
-        permanent_address=None, current_address=None, joining_time=None,
-        resume=None, status='Applied'
-    ):
-        self.job_type = job_type
-        self.position = position
-        self.fullname = fullname
-        self.gender = gender
-        self.contact = contact
-        self.email = email
-        self.qualification = qualification
-        self.computer_skills = computer_skills
-        self.erp_skills = erp_skills
-        self.written_english = written_english
-        self.spoken_english = spoken_english
-        self.understanding_english = understanding_english
-        self.expected_salary = expected_salary
-        self.experience = experience
-        self.last_job = last_job
-        self.salary = salary
-        self.why_switch = why_switch
-        self.family_members = family_members
-        self.father_details = father_details
-        self.permanent_address = permanent_address
-        self.current_address = current_address
-        self.joining_time = joining_time
-        self.resume = resume
-        self.status = status
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 # ------------------ INTERVIEW MODEL ------------------ #
 class Interview(db.Model):
@@ -97,21 +57,9 @@ class Interview(db.Model):
     result = db.Column(db.String(50))
 
 
-    def __init__(
-        self,
-        applicant_id: int,
-        date: str | None = None,
-        time: str | None = None,
-        mode: str | None = None,
-        interviewer: str | None = None,
-        result: str | None = None
-    ):
-        self.applicant_id = applicant_id
-        self.date = date
-        self.time = time
-        self.mode = mode
-        self.interviewer = interviewer
-        self.result = result
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 
 
@@ -120,24 +68,19 @@ class Employee(db.Model):
     __tablename__ = 'employee'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)   # fixed
+    name = db.Column(db.String(100), nullable=False)   
     contact = db.Column(db.String(15))
     position = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True, nullable=False)
     salary = db.Column(db.String(50))
-    joining_date = db.Column(db.DateTime, default=datetime)
-    
+    joining_date = db.Column(db.DateTime, default=datetime.utcnow)
     attendance = db.relationship('Attendance', backref='employee', lazy=True)
     tasks = db.relationship('Task', backref='employee', lazy=True)
     leave_requests = db.relationship('LeaveRequest', backref='employee', lazy=True)
 
-    def __init__(self, name=name, contact=contact, position=position, email=email, salary=salary, joining_date=joining_date):
-        self.name = name
-        self.contact = contact
-        self.position = position
-        self.email = email
-        self.salary = salary
-        self.joining_date = joining_date
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 
 # ------------------ ATTENDANCE MODEL ------------------ #
 class Attendance(db.Model):
@@ -151,13 +94,8 @@ class Attendance(db.Model):
     status = db.Column(db.String(20))
     action_by = db.Column(db.String(100))
 
-    def __init__(self,employee_id=int,fullname=str,position=None,date=date,status=None,action_by=None):  
-        self.employee_id=employee_id
-        self.fullname=fullname
-        self.position=position
-        self.date=date
-        self.status=status
-        self.action_by=action_by
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 # ------------------ LEAVE REQUEST MODEL ------------------ #
 class LeaveRequest(db.Model):
@@ -173,15 +111,8 @@ class LeaveRequest(db.Model):
     status = db.Column(db.Enum('Pending', 'Approved', 'Rejected'), default='Pending')
 
 
-    def __init__(self, employee_id=employee_id, fullname=fullname, leave_type=None, start_date=start_date, end_date=end_date, reason=reason, status='Pending'):
-        self.employee_id = employee_id
-        self.fullname = fullname
-        self.leave_type = leave_type
-        self.start_date = start_date
-        self.end_date = end_date
-        self.reason = reason
-        self.status = status
-
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 # ------------------ TASK MODEL ------------------ #
 class Task(db.Model):
@@ -194,12 +125,9 @@ class Task(db.Model):
     due_date = db.Column(db.DateTime)
     status = db.Column(db.String(50))
 
-    def __init__(self,title=None,description=None,employee_id=None,due_date=None,status=None):
-        self.title=title
-        self.description=description
-        self.employee_id=employee_id
-        self.due_date=due_date
-        self.status=status
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
 #------------------ candidate model---------- #
 class Candidates(db.Model):
     __tablename__ = 'candidates'
