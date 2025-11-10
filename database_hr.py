@@ -7,6 +7,15 @@ from langchain_ollama import OllamaLLM
 db = SQLAlchemy()
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 
+import pymysql
+conn = pymysql.connect(
+    host="localhost",
+    user="root",
+    password="admin@123",
+    database="hr"
+)
+print("Connected!")
+conn.close()
 
 # ------------------ APPLICANT MODEL ------------------ #
 class Applicant(db.Model):
