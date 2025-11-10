@@ -9,6 +9,7 @@ from langchain_ollama import OllamaLLM
 from collections import OrderedDict
 import mysql.connector
 import sys
+from waitress import serve
 
 app = Flask(__name__)
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
@@ -890,7 +891,6 @@ def admin_logout():
 
 # ---------------- RUN ---------------- #
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    serve(app, host="0.0.0.0", port=5000)
 
   
