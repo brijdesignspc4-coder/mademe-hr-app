@@ -917,7 +917,8 @@ def admin_logout():
 # ---------------- RUN ---------------- #
 if __name__ == "__main__":
     print("Starting server on http://localhost:8080 ...")
-    serve(app, host='0.0.0.0', port=8080)
+    port = int(os.environ.get("PORT", 8080))  # fallback for local dev
+    serve(app, host="0.0.0.0", port=port)
 
 
 
