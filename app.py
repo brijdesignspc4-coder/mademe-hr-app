@@ -21,17 +21,16 @@ load_dotenv()
 
 app = Flask(__name__)
 
-from urllib.parse import quote_plus
+# Secret key for session management
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "default_secret_key")
 
+# SQLAlchemy database URI from env variables
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"mysql+pymysql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}"
+    f"@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
+)
 
-db_user = os.environ.get("DB_USER", "root")
-db_password = quote_plus(os.environ.get("DB_PASSWORD", "admin@123"))
-db_host = os.environ.get("DB_HOST", "localhost")
-db_port = int(os.environ.get("DB_PORT", 3306)) 
-db_name = os.environ.get("DB_NAME", "hr")
-
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-
+db = SQLAlchemy(app)
 db.init_app(app)
 try:
     with app.app_context():
@@ -917,8 +916,8 @@ def admin_logout():
 # ---------------- RUN ---------------- #
 if __name__ == "__main__":
     print("Starting server on http://localhost:8080 ...")
-    port = int(os.environ.get("PORT", 8080))  # fallback for local dev
-    serve(app, host="0.0.0.0", port=port)
+    serve(app, host='0.0.0.0', port=8080)
+
 
 
   
