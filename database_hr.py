@@ -7,7 +7,7 @@ from langchain_ollama import OllamaLLM
 import mysql.connector
 
 db = SQLAlchemy()
-EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
+EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 
 # ------------------ APPLICANT MODEL ------------------ #
 class Applicant(db.Model):

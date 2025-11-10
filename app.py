@@ -12,7 +12,7 @@ import sys
 from waitress import serve
 
 app = Flask(__name__)
-EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "llama3.2:1b")
+EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 # ------------------ DATABASE CONFIG ------------------ #
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

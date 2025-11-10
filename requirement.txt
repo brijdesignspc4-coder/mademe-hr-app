@@ -1,7 +1,7 @@
 Flask
 Flask-SQLAlchemy
 SQLAlchemy
-pymysql
+PyMySQL
 mysql-connector-python
 langchain
 langchain_community
