@@ -18,12 +18,17 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Use Render's DATABASE_URL if available, otherwise local MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-    'DATABASE_URL', 
-    'mysql+pymysql://root:admin%40123@localhost/hr'
-)
+DB_HOST='localhost'
+DB_PORT=3306
+DB_USER='root'
+DB_PASSWORD='admin@123'
+DB_NAME='hr'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.environ['DB_USER']}:{os.environ['DB_PASSWORD']}@{os.environ['DB_HOST']}:{os.environ['DB_PORT']}/{os.environ['DB_NAME']}"
+
 
 db.init_app(app)
+
 
 with app.app_context():
     db.create_all()
