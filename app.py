@@ -20,34 +20,35 @@ import os
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 
 # ------------------ DATABASE CONFIG ------------------ #
+
 load_dotenv()
 
 app = Flask(__name__)
 
-# Get database environment variables
-db_user = os.environ.get("DB_USER", "root")
-db_password = quote_plus(os.environ.get("DB_PASSWORD", ""))
-db_host = os.environ.get("DB_HOST", "localhost")
-db_port = os.environ.get("DB_PORT", "3306")
-db_name = os.environ.get("DB_NAME", "hr")
+db_user = os.getenv("DB_USER")
+db_password = quote_plus(str(os.getenv("DB_PASSWORD") or ""))
+db_host = os.getenv("DB_HOST")
+db_port = os.getenv("DB_PORT")
+db_name = os.getenv("DB_NAME")
+db_ssl_ca = os.getenv("DB_SSL_CA")
 
-# Build the SQLAlchemy URI
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-
-# Optional: silence the warning
+# ✅ SQLAlchemy URI with SSL CA
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+    f"?ssl_ca={db_ssl_ca}"
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize SQLAlchemy
 db = SQLAlchemy(app)
 
-# Test
+# ✅ Test the connection
 try:
     with app.app_context():
         db.engine.connect()
-        print("Database connected successfully!")
+        print("✅ Database connected successfully!")
 except Exception as e:
-    print("Database connection failed:", e)
-    
+    print("❌ Database connection failed:", e)
+
 applications = {}
 statuses = {}
 
