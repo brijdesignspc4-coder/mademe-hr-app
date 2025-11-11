@@ -48,6 +48,9 @@ try:
         print("✅ Database connected successfully!")
 except Exception as e:
     print("❌ Database connection failed:", e)
+    
+with app.app_context():
+    db.create_all()
 
 applications = {}
 statuses = {}
