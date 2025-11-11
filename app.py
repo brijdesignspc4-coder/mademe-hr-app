@@ -45,12 +45,10 @@ db = SQLAlchemy(app)
 try:
     with app.app_context():
         db.engine.connect()
+        db.create_all()
         print("✅ Database connected successfully!")
 except Exception as e:
     print("❌ Database connection failed:", e)
-    
-with app.app_context():
-    db.create_all()
 
 applications = {}
 statuses = {}
