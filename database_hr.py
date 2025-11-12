@@ -5,19 +5,6 @@ from dotenv import load_dotenv
 import os
 import json
 
-# -------------------------------------------------------------------
-#  ENVIRONMENT + FLASK APP INITIALIZATION
-# -------------------------------------------------------------------
-load_dotenv()
-app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY", "supersecretkey")
-
-# -------------------------------------------------------------------
-#  DATABASE CONFIGURATION
-# -------------------------------------------------------------------
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 db = SQLAlchemy(app)
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 
