@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from datetime import datetime, date
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime, date
 from dotenv import load_dotenv
 import bcrypt
 from database_hr import db, Applicant, Interview, Employee, Attendance, Task, LeaveRequest, Candidates
@@ -14,15 +14,11 @@ import mysql.connector
 import sys
 from waitress import serve
 from urllib.parse import quote_plus
-import os
-
 
 EXTRACTOR_MODEL = os.environ.get("EXTRACTOR_MODEL", "gemma3:4b")
 
 # ------------------ DATABASE CONFIG ------------------ #
-
 load_dotenv()
-
 app = Flask(__name__)
 
 db_user = os.getenv("DB_USER")
@@ -33,10 +29,7 @@ db_name = os.getenv("DB_NAME")
 db_ssl_ca = os.getenv("DB_SSL_CA")
 
 # ✅ SQLAlchemy URI with SSL CA
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
-    f"?ssl_ca={db_ssl_ca}"
-)
+app.config['SQLALCHEMY_DATABASE_URI'] = (f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"f"?ssl_ca={db_ssl_ca}")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
