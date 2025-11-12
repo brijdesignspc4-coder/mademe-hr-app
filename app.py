@@ -37,8 +37,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = (
     f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
     f"?ssl_ca={db_ssl_ca}"
 )
-DATABASE_URL=f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"f"?ssl_ca={db_ssl_ca}"
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
